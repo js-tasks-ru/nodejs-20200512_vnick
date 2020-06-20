@@ -10,7 +10,8 @@ server.on('request', (req, res) => {
   // console.log('pathname:',pathname)
   if(pathname.includes('/')){
     res.statusCode = 400;
-    res.end('There i`~s any subfolders in this file storage.');
+    res.end('There is any subfolders in this file storage.');
+    return;
   }
 
   const filepath = path.join(__dirname, 'files', pathname);
@@ -22,15 +23,18 @@ server.on('request', (req, res) => {
       fs.stat(filepath, (err,stats) => {
         if(err){
           res.statusCode = 404;
-          res.end(`There is no file in: files/${pathname}`)
+          res.end(`There is no file in: files/${pathname}`);
+          return;
         }
         res.statusCode = 200;
         fs.readFile(filepath, (err,content) => {
           if(err){
             res.statusCode = 500;
-            res.end(`Server error: ${err}`)
+            res.end(`Server error: ${err}`);
+            return;
           }
           res.end(content);
+          return;
         })
       })
 
