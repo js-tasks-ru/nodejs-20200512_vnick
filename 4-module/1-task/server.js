@@ -31,7 +31,7 @@ server.on('request', (req, res) => {
         res.statusCode = 200;
         const readStream = new fs.ReadStream(filepath, { encoding: 'utf8' });
         readStream.on('data', (chunk) => {
-          console.log('chunk:',chunk.length);
+          // console.log('chunk:',chunk.length);
           res.write(chunk);
         });
 
