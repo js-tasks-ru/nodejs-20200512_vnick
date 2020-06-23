@@ -20,36 +20,40 @@ server.on('request', (req, res) => {
   switch (req.method) {
     case 'GET':
 
+      fs.createReadStream(filepath)
+        .on('error', (err) => {
+          res.statusCode = 404;
+          res.end('File not found!');
+          return;
+        })
+        .pipe(res);
+
+
+    // const myStream = fs.createReadStream(filepath);
+      // myStream.pipe(res);
+      // myStream.on('error', (err) => {
+      //   res.statusCode = 404;
+      //   res.end('File not found!');
+      //   return;
+      // })
+      /*  
       fs.stat(filepath, (err,stats) => {
         if(err){
           res.statusCode = 404;
           res.end(`There is no file in: files/${pathname}`);
           return;
         }
-
-
         res.statusCode = 200;
         const readStream = new fs.ReadStream(filepath, { encoding: 'utf8' });
         readStream.on('data', (chunk) => {
           // console.log('chunk:',chunk.length);
           res.write(chunk);
         });
-
         readStream.on('end', () => {
           res.end();
         })
-
-
-        // fs.readFile(filepath, (err,content) => {
-        //   if(err){
-        //     res.statusCode = 500;
-        //     res.end(`Server error: ${err}`);
-        //     return;
-        //   }
-        //   res.end(content);
-        //   return;
-        // })
       })
+      */
 
       break;
 
