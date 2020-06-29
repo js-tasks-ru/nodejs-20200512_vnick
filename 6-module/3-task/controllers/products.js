@@ -1,11 +1,16 @@
 const Products = require('../models/Product');
 
 module.exports.productsByQuery = async function productsByQuery(ctx, next) {
-  const queryText = ctx.request.query.query;
-
-  const products = await Products.find({ $text: { $search: queryText } });
-
-  ctx.body = {
-    products: products
-  };
+  const { query } = ctx.query;
+  if(query){
+    // const queryText = ctx.request.query.query;
+    const products = await Products.find({ $text: { $search: query } });
+    ctx.body = {
+      products: products
+    };
+  }else{
+    ctx.body = {
+      products: []
+    }
+  }
 };
